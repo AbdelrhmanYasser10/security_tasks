@@ -90,7 +90,7 @@ namespace SecurityLibrary
                     {
                         vec[j, 0] = cipherTextMatrix[j, i];
                     }
-                    int[,] result = MultiplyMatrix(keyMat, vec);
+                    int[,] result = matMultiplication(keyMat, vec);
 
                     for (int c = 0; c < result.GetLength(0); c++)
                     {
@@ -182,7 +182,7 @@ namespace SecurityLibrary
                     {
                         vec[j, 0] = cipherMatrix[j, i];
                     }
-                    int[,] result = MultiplyMatrix(keyMat, vec);
+                    int[,] result = matMultiplication(keyMat, vec);
                     for (int k = 0; k < result.GetLength(0); k++)
                     {
                         for (int o = 0; o < result.GetLength(1); o++)
@@ -257,7 +257,7 @@ namespace SecurityLibrary
                 for (int j = 0; j < matSize ; j++) {
                     vec[j, 0] = plainTextMatrix[j, i];
                 }
-                int[,] result = MultiplyMatrix(keyMatrix, vec);
+                int[,] result = matMultiplication(keyMatrix, vec);
         
                 for (int c = 0; c < result.GetLength(0); c++) {
                     for (int o = 0; o < result.GetLength(1); o++) {
@@ -267,37 +267,29 @@ namespace SecurityLibrary
             }
             return cipherValues;
         }
-        private int[,] MultiplyMatrix(int[,] matA, int[,] matB)
+        private int[,] matMultiplication(int[,] fmatrix, int[,] smatrix)
         {
-            int rowACount = matA.GetLength(0);
-            int colACount = matA.GetLength(1);
-            int rowBCount = matB.GetLength(0);
-            int colBCount = matB.GetLength(1);
+            int rFCount = fmatrix.GetLength(0);int cFCount = fmatrix.GetLength(1);
+            int cSCount = smatrix.GetLength(1);
 
-            if (colACount != rowBCount)
-            {
-                return null;
-            }
-            else
-            {
-                int temp = 0;
-                int[,] res = new int[rowACount, colBCount];
+            
+                int[,] finalResult = new int[rFCount, cSCount];
 
-                for (int i = 0; i < rowACount; i++)
+                for (int c = 0; c < rFCount; c++)
                 {
-                    for (int j = 0; j < colBCount; j++)
+                    for (int v = 0; v < cSCount; v++)
                     {
-                        temp = 0;
-                        for (int k = 0; k < colACount; k++)
+                    int temp = 0;
+                        for (int o = 0; o < cFCount; o++)
                         {
-                            temp += matA[i, k] * matB[k, j];
+                            temp += fmatrix[c, o] * smatrix[o, v];
                         }
-                        res[i, j] = temp;
+                        finalResult[c, v] = temp;
                     }
                 }
 
-                return res;
-            }
+                return finalResult;
+            
         }
 
         public List<int> Analyse3By3Key(List<int> plainText, List<int> cipherText)
@@ -377,7 +369,7 @@ namespace SecurityLibrary
                     plainTextMat[j, i] = newPlainTextMat[i, j];
                 }
             }
-            keyMatrix = MultiplyMatrix(cipherTextMat, plainTextMat);
+            keyMatrix = matMultiplication(cipherTextMat, plainTextMat);
            
             for (int i = 0; i < 3; i++)
             {
