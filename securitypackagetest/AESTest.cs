@@ -37,8 +37,6 @@ namespace SecurityPackageTest
         {
             AES algorithm = new AES();
             string plain = algorithm.Decrypt(mainCipher, mainKey);
-            Console.WriteLine(plain);
-            Console.WriteLine(mainPlain);
             Assert.IsTrue(plain.Equals(mainPlain, StringComparison.InvariantCultureIgnoreCase));
         }
 
@@ -87,8 +85,6 @@ namespace SecurityPackageTest
         {
             AES algorithm = new AES();
             string plain = algorithm.Decrypt(newCipher, newKey);
-            Console.WriteLine(plain);
-            Console.WriteLine(newPlain);
             Assert.IsTrue(plain.Equals(newPlain, StringComparison.InvariantCultureIgnoreCase));
         }
     }
